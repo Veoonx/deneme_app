@@ -1,0 +1,28 @@
+workflows:
+  repvx_build:
+    name: RepVX App Preview Build
+    environment:
+      flutter: stable
+      xcode: latest
+      vars:
+        BUILD_DIR: build
+    scripts:
+      - name: Flutter temizleme ve paket yükleme
+        script: |
+          flutter clean
+          flutter pub get
+      - name: Android için .apk oluştur
+        script: |
+          flutter build apk --debug
+      - name: iOS için simülatör build (.app)
+        script: |
+          flutter build ios --debug --simulator
+    artifacts:
+      - build/app/outputs/flutter-apk/app-debug.apk
+      - build/ios/iphonesimulator/Runner.app
+    app_preview:
+      title: "RepVX App Preview"
+      description: "RepVX iOS & Android önizleme build"
+      include_artifacts:
+        - build/app/outputs/flutter-apk/app-debug.apk
+        - build/ios/iphonesimulator/Runner.app
