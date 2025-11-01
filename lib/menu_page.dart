@@ -120,20 +120,26 @@ class _MenuPageState extends State<MenuPage> with WidgetsBindingObserver {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          _buildSummarySlider(),
-          const Divider(height: 1),
-          Expanded(
-            child: ListView(
-              children: [
-                if (modules.isNotEmpty) _buildSection("Modüller", modules),
-                if (reports.isNotEmpty) _buildSection("Raporlar", reports, isReport: true),
-              ],
-            ),
-          ),
-        ],
+    body: RefreshIndicator(
+  onRefresh: () async {
+    await _fetchSummary(); // sadece ciro (summary) yenileniyor
+  },
+  child: Column(
+    children: [
+      _buildSummarySlider(),
+      const Divider(height: 1),
+      Expanded(
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(), // yenile çekme aktif kalsın
+          children: [
+            if (modules.isNotEmpty) _buildSection("Modüller", modules),
+            if (reports.isNotEmpty) _buildSection("Raporlar", reports, isReport: true),
+          ],
+        ),
       ),
+    ],
+  ),
+),
     );
   }
 

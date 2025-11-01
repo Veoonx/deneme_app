@@ -205,7 +205,7 @@ Future<void> _showUrunAramaPopupFromSp4(List<dynamic> list4) async {
                     child: _loading
                         ? const SizedBox(
                             width: 22,
-                            height: 22,
+                            height: 26,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : const Icon(Icons.search),
@@ -268,23 +268,20 @@ Future<void> _showUrunAramaPopupFromSp4(List<dynamic> list4) async {
                                         ),
                                       ),
                                     const SizedBox(width: 16),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          _detailRow("Ürün Kodu", _opt("Ürün Kodu")),
-                                          _divider(),
-                                          _detailRow("Ürün Adı", _opt("Ürün Adı")),
-                                          _divider(),
-                                          _detailRow("Marka", _opt("Marka")),
-                                          _divider(),
-                                          _detailRow("Sezon", _opt("Sezon")),
-                                          _divider(),
-                                          _detailRow("PSF", _opt("PSF")),
-                                        ],
-                                      ),
-                                    ),
+                                   Expanded(
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      for (var i = 0; i < _sp2.length; i++) ...[
+        _detailRow(
+          _sp2[i]["OptionName"]?.toString() ?? "",
+          _sp2[i]["OptionValue"]?.toString() ?? "",
+        ),
+        if (i < _sp2.length - 1) _divider(),
+      ],
+    ],
+  ),
+),
                                   ],
                                 ),
                               ),
